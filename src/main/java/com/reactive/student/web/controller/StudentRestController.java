@@ -3,11 +3,8 @@ package com.reactive.student.web.controller;
 import com.reactive.student.model.Student;
 import com.reactive.student.service.StudentService;
 import io.reactivex.*;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -24,32 +21,22 @@ public class StudentRestController {
     }
 
     @PostMapping
-    public Single<ResponseEntity<Student>> addStudent(@RequestBody Student student){
+    public Single<Student> addStudent(@RequestBody Student student){
         return studentService.add(student)
-                .subscribeOn(Schedulers.io())
-                .map(studentBd-> ResponseEntity
-                        .created(URI.create("/students/"+studentBd.getId()))
-                        .body(studentBd));
+                .subscribeOn(Schedulers.io());
     }
 
-/*    @GetMapping
-    public Observable<ResponseEntity<Student>> getAllStudents(){
-        return studentService.getAll()
-                .subscribeOn(Schedulers.io())
-                .map(allStudents-> ResponseEntity.ok(allStudents));
-    }*/
-
     @GetMapping
-    public ResponseEntity<Observable<Student>> getAllStudents(){
-        Observable<Student> allStudents = studentService.getAll();
-        return ResponseEntity.ok(allStudents);
+    public Observable<Student> getAllStudents(){
+        return studentService.getAll()
+                .subscribeOn(Schedulers.io());
+
     }
 
     @GetMapping(value="/{studentId}")
-    public Single<ResponseEntity<Student>> getStudentById(@PathVariable Integer studentId){
+    public Single<Student> getStudentById(@PathVariable Integer studentId){
         return studentService.getStudentById(studentId)
-                .subscribeOn(Schedulers.io())
-                .map(student -> ResponseEntity.ok(student));
+                .subscribeOn(Schedulers.io());
     }
 
     @DeleteMapping(value="/{studentId}")

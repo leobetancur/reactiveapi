@@ -29,7 +29,9 @@ public class StudentService {
     }
 
     public Observable<Student> getAll(){
-        return RxJava2Adapter.fluxToObservable(studentRepository.findAll());
+
+        return RxJava2Adapter.fluxToObservable(studentRepository.findAll())
+                .filter(student -> student.getActive());
     }
 
     public Single<Student> getStudentById(Integer studentId){
