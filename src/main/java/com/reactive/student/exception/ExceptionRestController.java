@@ -22,4 +22,9 @@ public class ExceptionRestController {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(StudentAlreadyExists.STUDENT_ALREADY_EXISTS);
     }
 
+    @ExceptionHandler(StudentDoestExist.class)
+    public ResponseEntity<String> handleStudentDoestExist() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student No found");
+    }
+
 }

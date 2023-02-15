@@ -15,20 +15,10 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	//implementation group: 'io.reactivex.rxjava3', name: 'rxjava', version: '3.1.6'
-	// https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
 	implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.21'
-
-	implementation group: 'io.projectreactor.addons', name: 'reactor-adapter', version: '3.5.0'
-	implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.5.2'
-	// https://mvnrepository.com/artifact/io.projectreactor.addons/reactor-extra
-	implementation group: 'io.projectreactor.addons', name: 'reactor-extra', version: '3.5.0'
-
-
 	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'io.r2dbc:r2dbc-h2'
 }
