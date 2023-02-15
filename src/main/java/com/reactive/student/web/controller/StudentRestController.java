@@ -22,8 +22,8 @@ public class StudentRestController {
     }
 
     @PostMapping
-    public Single<Student> addStudent(@RequestBody Student student){
-        return studentService.add(student)
+    public Single<Student> addStudent(@RequestBody NewInfoStudent newInfoStudent){
+        return studentService.add(newInfoStudent)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -31,7 +31,6 @@ public class StudentRestController {
     public Observable<Student> getAllStudents(){
         return studentService.getAll()
                 .subscribeOn(Schedulers.io());
-
     }
 
     @GetMapping(value="/{studentId}")
@@ -46,9 +45,9 @@ public class StudentRestController {
                 .subscribeOn(Schedulers.io());
     }
 
-    @PutMapping
-    public Completable updateStudent(@RequestBody Student student ){
-        return studentService.updateStudent(student)
+    @PutMapping(value="/{studentId}")
+    public Completable updateStudent(@PathVariable Integer studentId, @RequestBody NewInfoStudent newInfoStudent ){
+        return studentService.updateStudent(new Student(studentId, newInfoStudent.getName(), newInfoStudent.getActive()))
                 .subscribeOn(Schedulers.io());
     }
 }

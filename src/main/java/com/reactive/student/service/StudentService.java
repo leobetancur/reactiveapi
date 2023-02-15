@@ -1,14 +1,12 @@
 package com.reactive.student.service;
 
-import com.reactive.student.exception.StudentAlreadyExists;
 import com.reactive.student.exception.StudentDoestExist;
 import com.reactive.student.model.Student;
 import com.reactive.student.repository.StudentRepository;
+import com.reactive.student.web.controller.NewInfoStudent;
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.CompletableSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.functions.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,23 +14,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentService {
 
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
+    private final StudentMapper studentMapper;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository){
+    public StudentService(StudentRepository studentRepository,
+                          StudentMapper studentMapper){
         this.studentRepository = studentRepository;
+        this.studentMapper = studentMapper;
     }
 
-    public Single<Student> add(Student student){
-        Single<Student> studentExist = Single.error(new StudentAlreadyExists());
-        return studentRepository.findByName(student.getName())
-                .switchIfEmpty(studentRepository.save(student));
+    public Single<Student> add(NewInfoStudent newInfoStudent){
+        return studentRepository
+                .findByName(newInfoStudent.getName())
+                .switchIfEmpty(studentRepository.save(studentMapper.newInfoStudentToStudent(newInfoStudent)));
     }
 
     public Observable<Student> getAll(){
         return studentRepository.findAll()
                 .toObservable()
-                .filter(student -> student.getActive());
+                .filter(Student::getActive);
     }
 
     public Single<Student> getStudentById(Integer studentId){
@@ -45,13 +46,9 @@ public class StudentService {
     }
 
     public Completable updateStudent(Student student){
-        return studentRepository.save(student).
-                flatMapCompletable(new Function<Student, CompletableSource>() {
-                    @Override
-                    public CompletableSource apply(Student student) throws Throwable {
-                        return Completable.complete();
-                    }
-                });
+        return studentRepository.save(student)
+                .flatMapCompletable(student1 -> Completable.complete());
+
     }
 
 }
