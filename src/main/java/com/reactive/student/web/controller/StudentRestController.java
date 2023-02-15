@@ -2,12 +2,13 @@ package com.reactive.student.web.controller;
 
 import com.reactive.student.model.Student;
 import com.reactive.student.service.StudentService;
-import io.reactivex.*;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 
 @RestController
 @RequestMapping("/students")

@@ -4,7 +4,11 @@ import com.reactive.student.exception.StudentAlreadyExists;
 import com.reactive.student.exception.StudentDoestExist;
 import com.reactive.student.model.Student;
 import com.reactive.student.repository.StudentRepository;
-import io.reactivex.*;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.functions.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +45,13 @@ public class StudentService {
     }
 
     public Completable updateStudent(Student student){
-        return studentRepository.save(student).toCompletable();
+        return studentRepository.save(student).
+                flatMapCompletable(new Function<Student, CompletableSource>() {
+                    @Override
+                    public CompletableSource apply(Student student) throws Throwable {
+                        return Completable.complete();
+                    }
+                });
     }
 
 }
