@@ -1,4 +1,4 @@
-package com.reactive.student.exception;
+package com.reactive.student.domain.exception;
 
 public class StudentAlreadyExists extends RuntimeException{
 

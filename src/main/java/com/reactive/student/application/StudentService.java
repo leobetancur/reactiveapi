@@ -1,13 +1,11 @@
-package com.reactive.student.service;
+package com.reactive.student.application;
 
-import com.reactive.student.exception.ExceptionDataBase;
-import com.reactive.student.exception.StudentAlreadyExists;
-import com.reactive.student.exception.StudentDoestExist;
-import com.reactive.student.model.Student;
-import com.reactive.student.repository.StudentRepository;
-import com.reactive.student.web.controller.NewInfoStudent;
+import com.reactive.student.domain.entities.Student;
+import com.reactive.student.domain.exception.ExceptionDataBase;
+import com.reactive.student.domain.exception.StudentDoestExist;
+import com.reactive.student.domain.repository.StudentRepository;
+import com.reactive.student.domain.entities.NewInfoStudent;
 import io.reactivex.rxjava3.core.*;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +44,8 @@ public class StudentService {
 
     public Single<Student> getStudentById(Integer studentId){
         return studentRepository.findById(studentId)
-                .switchIfEmpty(Single.error(new StudentDoestExist()));
+                .switchIfEmpty(Single.error(new StudentDoestExist()))
+                .doOnError(t->logger.error(t.getMessage()));
     }
 
     public Completable deleteStudentById(Integer studentId){
@@ -56,7 +55,8 @@ public class StudentService {
                         return Completable.error(new StudentDoestExist());
                     }
                     return studentRepository.deleteById(studentId);
-                });
+                })
+                .doOnError(t->logger.error(t.getMessage()));
     }
 
     public Completable updateStudent(Student student){
@@ -66,7 +66,8 @@ public class StudentService {
                         return Completable.error(new StudentDoestExist());
                     }
                     return studentRepository.save(student).ignoreElement();
-                });
+                })
+                .doOnError(t->logger.error(t.getMessage()));
     }
 
 }

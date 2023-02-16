@@ -1,7 +1,8 @@
-package com.reactive.student.web.controller;
+package com.reactive.student.infrastructure;
 
-import com.reactive.student.model.Student;
-import com.reactive.student.service.StudentService;
+import com.reactive.student.domain.entities.Student;
+import com.reactive.student.application.StudentService;
+import com.reactive.student.domain.entities.NewInfoStudent;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;

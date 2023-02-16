@@ -1,6 +1,6 @@
-package com.reactive.student.repository;
+package com.reactive.student.domain.repository;
 
-import com.reactive.student.model.Student;
+import com.reactive.student.domain.entities.Student;
 
 import io.reactivex.rxjava3.core.Maybe;
 import org.springframework.data.r2dbc.repository.Query;

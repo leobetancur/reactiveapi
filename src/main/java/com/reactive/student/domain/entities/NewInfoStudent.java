@@ -1,16 +1,14 @@
-package com.reactive.student.model;
-
+package com.reactive.student.domain.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.data.annotation.Id;
+import lombok.NonNull;
 
 @AllArgsConstructor
 @Getter
-public class Student {
-
-    @Id
-    private Integer id;
+public class NewInfoStudent {
+    @NonNull
     private String name;
+    @NonNull
     private Boolean active;
 }

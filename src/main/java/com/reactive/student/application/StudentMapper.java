@@ -1,7 +1,7 @@
-package com.reactive.student.service;
+package com.reactive.student.application;
 
-import com.reactive.student.model.Student;
-import com.reactive.student.web.controller.NewInfoStudent;
+import com.reactive.student.domain.entities.Student;
+import com.reactive.student.domain.entities.NewInfoStudent;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

@@ -1,4 +1,4 @@
-package com.reactive.student.exception;
+package com.reactive.student.domain.exception;
 
 public class ExceptionDataBase extends RuntimeException{
     public ExceptionDataBase(String codeError, Throwable throwable){

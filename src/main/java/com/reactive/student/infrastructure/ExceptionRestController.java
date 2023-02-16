@@ -1,6 +1,8 @@
-package com.reactive.student.exception;
+package com.reactive.student.infrastructure;
 
 
+import com.reactive.student.domain.exception.StudentAlreadyExists;
+import com.reactive.student.domain.exception.StudentDoestExist;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
