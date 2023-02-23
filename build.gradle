@@ -15,18 +15,15 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	//implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.21'
 	implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	implementation 'org.springframework.cloud:spring-cloud-starter-config:3.1.5'
 	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'io.r2dbc:r2dbc-h2'
-	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
-
-
-
 }
 
 tasks.named('test') {

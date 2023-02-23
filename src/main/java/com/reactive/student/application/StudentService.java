@@ -1,8 +1,7 @@
 package com.reactive.student.application;
 
 import com.reactive.student.domain.entities.Student;
-import com.reactive.student.domain.exception.ExceptionDataBase;
-import com.reactive.student.domain.exception.StudentDoestExist;
+import com.reactive.student.domain.exception.ExceptionWithCode;
 import com.reactive.student.domain.repository.StudentCache;
 import com.reactive.student.domain.repository.StudentRepository;
 import com.reactive.student.domain.entities.NewInfoStudent;
@@ -36,7 +35,7 @@ public class StudentService {
                 .flatMap(student ->studentRepository
                         .findByName(student.getName())
                         .switchIfEmpty(studentRepository.save(student)))
-                        .onErrorResumeNext( t-> Single.error(new ExceptionDataBase("1", t)))
+                        .onErrorResumeNext( t-> Single.error(new ExceptionWithCode("C3")))
                 .doOnError(t->logger.error(t.getMessage()));
     }
 
@@ -50,7 +49,7 @@ public class StudentService {
         return studentCache.findById(studentId)
                 .switchIfEmpty( studentRepository.findById(studentId)
                     .doAfterSuccess(student->studentCache.save(student))
-                    .switchIfEmpty(Single.error(new StudentDoestExist()))
+                    .switchIfEmpty(Single.error(new ExceptionWithCode("A1")))
                     .doOnError(t->logger.error(t.getMessage())));
     }
 
@@ -58,7 +57,7 @@ public class StudentService {
         return studentRepository.existsById(studentId)
                 .flatMapCompletable(studentExist->{
                     if(!studentExist) {
-                        return Completable.error(new StudentDoestExist());
+                        return Completable.error(new ExceptionWithCode("A1"));
                     }
                     studentCache.deleteById(studentId);
                     return studentRepository.deleteById(studentId);
@@ -70,7 +69,7 @@ public class StudentService {
         return studentRepository.existsById(student.getId())
                 .flatMapCompletable(studentExist->{
                     if(!studentExist){
-                        return Completable.error(new StudentDoestExist());
+                        return Completable.error(new ExceptionWithCode("A1"));
                     }
                     return studentRepository.save(student).ignoreElement();
                 })
